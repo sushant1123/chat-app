@@ -1,22 +1,11 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { getChats } from "../apis/chats";
+import React from "react";
+import { useParams } from "react-router-dom";
 
 const Chat = () => {
-  const fetchChats = async () => {
-    try {
-      const { data } = await getChats();
-      console.log({ data });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const params = useParams();
+  console.log({ params });
 
-  useEffect(() => {
-    fetchChats();
-  }, []);
-
-  return <div>Chat</div>;
+  return <div>{params?.id}</div>;
 };
 
 export default Chat;
