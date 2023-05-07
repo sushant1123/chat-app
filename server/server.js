@@ -4,8 +4,9 @@ const colors = require("colors");
 const dotenv = require("dotenv");
 
 const userRoutes = require("./routes/user.route");
+const chatRoutes = require("./routes/chat.routes");
 
-const { chats } = require("./data/data");
+// const { chats } = require("./data/data");
 const { connectToDB } = require("./connections/mongodb");
 const { notFound, errorHandler } = require("./middlewares/error.middleware");
 
@@ -26,6 +27,7 @@ app.get("/health-check", (req, res) => {
 });
 
 app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
 
 // app.get("/api/chat", (req, res) => {
 //   res.json({ chats });

@@ -39,7 +39,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-exports.authUser = asyncHandler(async (req, res) => {
+exports.loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -64,4 +64,22 @@ exports.authUser = asyncHandler(async (req, res) => {
       message: "Invalid Username or Password",
     });
   }
+});
+
+//api/user?search=sushant
+exports.allUsers = asyncHandler(async (req, res) => {
+  const search_key = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const users = await User.find(search_key).find({ _id: { $ne: req.user._id } });
+  // const users = await User.find(search_key, { password: 0 });
+
+  return res.status(200).json({ status: "success", users });
+  // console.log({ key });
 });
