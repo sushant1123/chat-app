@@ -99,7 +99,7 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem("userInfo", JSON.stringify(data.user));
       setLoading(false);
       navigate("/chats");
     } catch (error) {

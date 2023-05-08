@@ -1,34 +1,51 @@
-import { useState } from "react";
 import "./App.css";
-import { Button } from "@chakra-ui/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Chats from "./pages/Chats";
-import Chat from "./pages/Chat";
+import ChatsPage from "./pages/ChatsPage";
+import SingleChat from "./pages/SingleChat";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    errorElement: <ErrorBoundary />,
-  },
-  {
-    path: "/chats",
-    element: <Chats />,
-    errorElement: <ErrorBoundary />,
-  },
-  {
-    path: "/chats/:id",
-    element: <Chat />,
-    errorElement: <ErrorBoundary />,
-  },
-]);
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <ChatProvider />,
+//     children: [
+//       {
+//         index: true,
+//         element: <Home />,
+//         errorElement: <ErrorBoundary />,
+//       },
+//       {
+//         path: "chats",
+//         element: <ChatsPage />,
+//         errorElement: <ErrorBoundary />,
+//       },
+//       {
+//         path: "/chats/:id",
+//         element: <SingleChat />,
+//         errorElement: <ErrorBoundary />,
+//       },
+//     ],
+//   },
+// ]);
 
 function App() {
   return (
     <div className="app">
-      <RouterProvider router={router} />
+      {/* <Routes>
+        <Route path="/" exact Component={Home} />
+        <Route path="chats" Component={ChatsPage} />
+        <Route path="chats/:id" Component={SingleChat} />
+
+        <Route path="*" Component={ErrorBoundary} />
+      </Routes> */}
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="chats" element={<ChatsPage />} />
+        <Route path="chats/:id" element={<SingleChat />} />
+        <Route path="*" element={<ErrorBoundary />} />
+      </Routes>
     </div>
   );
 }

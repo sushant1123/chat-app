@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, VStack } from "@chakra-ui/react";
+import { Button, VStack, useToast } from "@chakra-ui/react";
+
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { loginUser } from "../../apis/user";
@@ -12,6 +13,7 @@ const Login = () => {
   const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleClick = () => setShow((prev) => !prev);
 
@@ -38,7 +40,7 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem("userInfo", JSON.stringify(data.user));
       setLoading(false);
       navigate("/chats");
     } catch (error) {
