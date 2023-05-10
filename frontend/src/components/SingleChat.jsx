@@ -8,12 +8,19 @@ import UpdateGroupChatModal from "./misc/UpdateGroupChatModal";
 import { getAllMessages, postMessage } from "../apis/message";
 import "./styles.css";
 import ScrollableChat from "./ScrollableChat";
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { user, selectedChat, setSelectedChat } = ChatState();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [istyping, setIsTyping] = useState(false);
 
   const toast = useToast();
 
@@ -21,6 +28,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     if (e.key === "Enter" && newMessage) {
       try {
         setNewMessage("");
+        socket.emit("stop typing", selectedChat._id);
         const { data } = await postMessage(
           { content: newMessage, chatId: selectedChat._id },
           user.token
@@ -28,6 +36,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         console.log({ data });
         // setNewMessage("");
+        socket.emit("new message", data.message);
         setMessages([...messages, data.message]);
       } catch (error) {
         console.log(error);
@@ -51,6 +60,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
       const { data } = await getAllMessages(selectedChat._id, user.token);
 
+      socket.emit("join chat", selectedChat._id);
       setMessages(data.messages);
       setLoading(false);
     } catch (error) {
@@ -69,11 +79,55 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
+
+    if (!socketConnected) return;
+
+    if (!typing) {
+      setTyping(true);
+      socket.emit("typing", selectedChat._id);
+    }
+
+    let lastTypingTime = new Date().getTime();
+    var timerLength = 3000;
+    setTimeout(() => {
+      var timeNow = new Date().getTime();
+      var timeDiff = timeNow - lastTypingTime;
+      if (timeDiff >= timerLength && typing) {
+        socket.emit("stop typing", selectedChat._id);
+        setTyping(false);
+      }
+    }, timerLength);
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
+    selectedChatCompare = selectedChat; //backup of the selected chat
   }, [selectedChat]);
+
+  //for receiving the message
+  useEffect(() => {
+    socket.on("message recieved", (newMessageReceived) => {
+      if (
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
+        selectedChatCompare._id !== newMessageReceived.chat._id
+      ) {
+        // if (!notification.includes(newMessageReceived)) {
+        //   setNotification([newMessageReceived, ...notification]);
+        //   setFetchAgain(!fetchAgain);
+        // }
+      } else {
+        setMessages([...messages, newMessageReceived]);
+      }
+    });
+  });
 
   return (
     <>
@@ -132,6 +186,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
 
             <FormControl onKeyDown={sendMessage} id="first-name" isRequired mt={3}>
+              {istyping ? (
+                <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight" noOfLines={1}>
+                  <Text>Loading....</Text>
+                </Box>
+              ) : (
+                <></>
+              )}
+
               <Input
                 variant="filled"
                 bg="#E0E0E0"
