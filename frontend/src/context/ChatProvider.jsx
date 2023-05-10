@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
+import { dummy_chats, dummy_selectedChat } from "../utils/DUMMY_DATA";
 
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
   const [user, setUser] = useState({});
-  const [selectedChat, setSelectedChat] = useState({});
+  const [selectedChat, setSelectedChat] = useState(dummy_selectedChat);
   const [chats, setChats] = useState([]);
 
   const navigate = useNavigate();

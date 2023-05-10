@@ -9,10 +9,10 @@ import { Spinner } from "@chakra-ui/spinner";
 
 import { ChatState } from "../../context/ChatProvider";
 import ProfileModal from "./ProfileModal";
+import ChatLoading from "../ChatLoading";
+import UserListItem from "../userAvatar/UserListItem";
 
 import { getChat, getListOfUsers } from "../../apis/user";
-import ChatLoading from "./ChatLoading";
-import UserListItem from "../userAvatar/UserListItem";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");

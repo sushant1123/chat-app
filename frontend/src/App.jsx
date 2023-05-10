@@ -42,9 +42,9 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="chats" element={<ChatsPage />} />
-        <Route path="chats/:id" element={<SingleChat />} />
-        <Route path="*" element={<ErrorBoundary />} />
+        <Route path="/chats" element={<ChatsPage />} />
+        <Route path="/chats/:id" element={<SingleChat />} />
+        <Route path="/*" element={<ErrorBoundary />} />
       </Routes>
     </div>
   );
