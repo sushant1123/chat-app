@@ -243,3 +243,6 @@ export const dummy_selectedChat = {
     __v: 0,
   },
 };
+
+export const dummy_token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTdhNjdhOTlmZjBmODNkZjA5M2JkYyIsImlhdCI6MTY4MzcxODkxOSwiZXhwIjoxNjg2MzEwOTE5fQ.EP1D1LLOafKcyrYvKQDHaQBlC-JL7vgX-JZrGzbRE6A";

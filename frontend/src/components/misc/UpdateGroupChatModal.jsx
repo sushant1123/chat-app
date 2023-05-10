@@ -20,7 +20,7 @@ import UserListItem from "../userAvatar/UserListItem";
 import { addUserToGroupChat, removeUserFromGroupChat, renameGroupChat } from "../../apis/chats";
 import { getListOfUsers } from "../../apis/user";
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { selectedChat, setSelectedChat, user } = ChatState();
 
@@ -161,7 +161,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
 
       user1._id === user._id ? setSelectedChat({}) : setSelectedChat(data);
       setFetchAgain((prev) => !prev);
-      // fetchMessages();
+      fetchMessages();
       setLoading(false);
     } catch (error) {
       console.log(error);

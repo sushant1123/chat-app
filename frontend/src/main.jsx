@@ -8,12 +8,12 @@ import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-  <ChakraProvider>
-    <BrowserRouter>
-      <ChatProvider>
+  <BrowserRouter>
+    <ChatProvider>
+      <ChakraProvider>
         <App />
-      </ChatProvider>
-    </BrowserRouter>
-  </ChakraProvider>
+      </ChakraProvider>
+    </ChatProvider>
+  </BrowserRouter>
   // </React.StrictMode>
 );

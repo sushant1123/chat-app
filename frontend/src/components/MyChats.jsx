@@ -6,6 +6,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../config/chatLogics";
 import GroupChatModal from "./misc/GroupChatModal";
+import { dummy_token } from "../utils/DUMMY_DATA";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState({});
@@ -15,7 +16,7 @@ const MyChats = ({ fetchAgain }) => {
 
   const fetchChats = async () => {
     try {
-      const { data } = await getChats(user.token);
+      const { data } = await getChats(user.token || dummy_token);
       setChats(data);
     } catch (error) {
       console.log(error);
