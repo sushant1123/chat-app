@@ -7,6 +7,7 @@ const morgan = require("morgan");
 
 const userRoutes = require("./routes/user.route");
 const chatRoutes = require("./routes/chat.routes");
+const messageRoutes = require("./routes/message.routes");
 
 // const { chats } = require("./data/data");
 const { connectToDB } = require("./connections/mongodb");
@@ -45,6 +46,7 @@ app.get("/health-check", (req, res) => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoutes);
 
 // app.get("/api/chat", (req, res) => {
 //   res.json({ chats });
