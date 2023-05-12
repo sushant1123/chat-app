@@ -11,8 +11,10 @@ import { ChatState } from "../../context/ChatProvider";
 import ProfileModal from "./ProfileModal";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../userAvatar/UserListItem";
+import NotificationBadge from "./NotificationBadge";
 
 import { getChat, getListOfUsers } from "../../apis/user";
+import { getSender } from "../../config/chatLogics";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -22,7 +24,7 @@ const SideDrawer = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { setSelectedChat, user, chats, setChats } = ChatState();
+  const { setSelectedChat, user, chats, setChats, notification, setNotification } = ChatState();
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -115,12 +117,10 @@ const SideDrawer = () => {
 
         <div>
           <Menu>
-            <MenuButton p={1}>
-              {/* <NotificationBadge count={notification.length} effect={Effect.SCALE} /> */}
-              <BellIcon fontSize="2xl" m={1} />
-            </MenuButton>
+            <NotificationBadge count={notification.length} />
             <MenuList pl={2}>
-              {/* {!notification.length && "No New Messages"}
+              {!notification.length && "No New Messages"}
+
               {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}
@@ -133,7 +133,7 @@ const SideDrawer = () => {
                     ? `New Message in ${notif.chat.chatName}`
                     : `New Message from ${getSender(user, notif.chat.users)}`}
                 </MenuItem>
-              ))} */}
+              ))}
             </MenuList>
           </Menu>
           <Menu>
