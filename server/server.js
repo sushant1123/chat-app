@@ -51,7 +51,7 @@ const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
     // origin: "http://localhost:3000", // dev
-    origin: "https://informal-talk-dwyxuqgn4-sushant1123.vercel.app", // prod
+    origin: "https://informal-talk.vercel.app", // prod
   },
 });
 
