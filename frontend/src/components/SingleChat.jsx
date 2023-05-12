@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import { ChatState } from "../context/ChatProvider";
 import { Box, FormControl, IconButton, Input, Spinner, Text, useToast } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { getSender, getSenderFull } from "../config/chatLogics";
-import ProfileModal from "./misc/ProfileModal";
-import UpdateGroupChatModal from "./misc/UpdateGroupChatModal";
-import { getAllMessages, postMessage } from "../apis/message";
-import "./styles.css";
-import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:5000";
+import ProfileModal from "./misc/ProfileModal";
+import UpdateGroupChatModal from "./misc/UpdateGroupChatModal";
+import ScrollableChat from "./ScrollableChat";
+
+import { getSender, getSenderFull } from "../config/chatLogics";
+import { getAllMessages, postMessage } from "../apis/message";
+import { getURL } from "../apis/config";
+
+import "./styles.css";
+
+const ENDPOINT = getURL();
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {

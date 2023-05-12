@@ -5,7 +5,9 @@ export const getURL = () => {
   let api_hostname = "";
   if (window.location.hostname === "localhost") {
     api_hostname = import.meta.env.VITE_BACKEND_LOCAL;
-  } else if (window.location.hostname === "cloudsbay-client-sush.netlify.app") {
+  } else if (
+    window.location.hostname === "https://informal-talk-dwyxuqgn4-sushant1123.vercel.app/"
+  ) {
     api_hostname = import.meta.env.VITE_BACKEND_PROD;
   }
 
